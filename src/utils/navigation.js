@@ -15,7 +15,7 @@ const fetchPage = async (url) => {
   return data;
 };
 
-export const startViewTransition = () => {
+export const startViewTransitionUtil = () => {
   if (!checkIsViewTransition()) return;
 
   window.navigation.addEventListener("navigate", (e) => {
