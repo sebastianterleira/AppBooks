@@ -4,11 +4,13 @@ interface Props {
 }
 
 const { title } = Astro.props;
+import { ViewTransitions } from "astro:transitions";
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
+    <ViewTransitions />
     <meta charset="UTF-8" />
     <meta name="description" content="Astro description" />
     <meta name="viewport" content="width=device-width" />
@@ -20,75 +22,69 @@ const { title } = Astro.props;
     <div class="content">
       <slot />
     </div>
+    <style is:global>
+      :root {
+        --accent: 136, 58, 234;
+        --accent-light: 224, 204, 250;
+        --accent-dark: 49, 10, 101;
+        --accent-gradient: linear-gradient(
+          45deg,
+          rgb(var(--accent)),
+          rgb(var(--accent-light)) 30%,
+          white 60%
+        );
+      }
+      html {
+        font-family: system-ui, sans-serif;
+        background: #fff;
+        background-size: 224px;
+      }
+      code {
+        font-family:
+          Menlo,
+          Monaco,
+          Lucida Console,
+          Liberation Mono,
+          DejaVu Sans Mono,
+          Bitstream Vera Sans Mono,
+          Courier New,
+          monospace;
+      }
+      @keyframes fade-in {
+        from {
+          opacity: 0;
+        }
+      }
+
+      @keyframes fade-out {
+        to {
+          opacity: 0;
+        }
+      }
+
+      @keyframes slide-from-right {
+        from {
+          transform: translateX(30px);
+        }
+      }
+
+      @keyframes slide-to-left {
+        to {
+          transform: translateX(-30px);
+        }
+      }
+
+      ::view-transition-old(root) {
+        animation:
+          300ms cubic-bezier(0.4, 0, 1, 1) both fade-out,
+          700ms cubic-bezier(0.4, 0, 0.2, 1) both slide-to-left;
+      }
+
+      ::view-transition-new(root) {
+        animation:
+          210ms cubic-bezier(0, 0, 0.2, 1) 90ms both fade-in,
+          700ms cubic-bezier(0.4, 0, 0.2, 1) both slide-from-right;
+      }
+    </style>
   </body>
 </html>
-<style is:global>
-  :root {
-    --accent: 136, 58, 234;
-    --accent-light: 224, 204, 250;
-    --accent-dark: 49, 10, 101;
-    --accent-gradient: linear-gradient(
-      45deg,
-      rgb(var(--accent)),
-      rgb(var(--accent-light)) 30%,
-      white 60%
-    );
-  }
-  html {
-    font-family: system-ui, sans-serif;
-    background: #fff;
-    background-size: 224px;
-  }
-  code {
-    font-family:
-      Menlo,
-      Monaco,
-      Lucida Console,
-      Liberation Mono,
-      DejaVu Sans Mono,
-      Bitstream Vera Sans Mono,
-      Courier New,
-      monospace;
-  }
-  @keyframes fade-in {
-    from {
-      opacity: 0;
-    }
-  }
-
-  @keyframes fade-out {
-    to {
-      opacity: 0;
-    }
-  }
-
-  @keyframes slide-from-right {
-    from {
-      transform: translateX(30px);
-    }
-  }
-
-  @keyframes slide-to-left {
-    to {
-      transform: translateX(-30px);
-    }
-  }
-
-  ::view-transition-old(root) {
-    animation:
-      300ms cubic-bezier(0.4, 0, 1, 1) both fade-out,
-      700ms cubic-bezier(0.4, 0, 0.2, 1) both slide-to-left;
-  }
-
-  ::view-transition-new(root) {
-    animation:
-      210ms cubic-bezier(0, 0, 0.2, 1) 90ms both fade-in,
-      700ms cubic-bezier(0.4, 0, 0.2, 1) both slide-from-right;
-  }
-</style>
-
-<script>
-  import { startViewTransitionUtil } from "../utils/navigation";
-
-  startViewTransitionUtil();
-</script>
