@@ -3,13 +3,34 @@ import Layout from "../layouts/Layout.astro";
 import { books } from "../data/books";
 const { book } = Astro.params;
 
-const info = books.find(b => b.id === book);
+const info = books.find((b) => b.id === book);
 
 if (!info) {
   return Astro.redirect("/404", 404);
 }
 ---
 
-<Layout title="Libro">
-  <h1 class="text-6xl">{book}</h1>
+<Layout title={`Libro ${info.title}`}>
+  <main class="m-auto max-w-4xl">
+    <div class="grid grid-cols-[350px_1fr] gap-x-12 mt-20">
+      <div class="flex flex-col">
+        <picture class="mb-8 w-full relative">
+          <img
+            class="aspect-[389/500] h-full object-cover w-full max-w-full rounded-lg"
+            src={info.img}
+            alt={`Portada de libro: ${info.title}`}
+          />
+        </picture>
+      </div>
+
+      <aside>
+        <h1 class="text-5xl font-black mb-4">{info.title}</h1>
+        <p class="text-lg mb-4">{info.opinion}</p>
+        <p>
+          <strong>Author:</strong>
+          <span class="font-semibold text-gray-800">{info.author}</span>
+        </p>
+      </aside>
+    </div>
+  </main>
 </Layout>
