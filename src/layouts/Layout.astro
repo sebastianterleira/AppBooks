@@ -3,7 +3,6 @@ interface Props {
   title: string;
 }
 
-import { startViewTransitionUtil } from "../utils/navigation"; 
 const { title } = Astro.props;
 ---
 
@@ -79,5 +78,7 @@ const { title } = Astro.props;
 </style>
 
 <script>
-	startViewTransitionUtil();
+import { startViewTransitionUtil } from "../utils/navigation";
+
+  startViewTransitionUtil();
 </script>
